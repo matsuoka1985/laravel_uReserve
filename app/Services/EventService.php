@@ -16,6 +16,14 @@ class EventService{ //ファイル名と同じクラス名にしないといけ�
         return $check;
     }
 
+    public static function countEventDuplication($eventDate,$startTime,$endTime){
+        return DB::table('events')
+        ->whereDate('start_date',$eventDate)
+        ->whereTime('end_date','>',$startTime)
+        ->whereTime('start_date','<',$endTime)
+        ->get();
+    }
+
     //フォームから送信された日付、開始時間、終了時間データをもとにDBに登録する「日付＋時間」という表記に加工するための関数。
     public static function joinDateAndTime($date,$time){
         $join=$date. " " . $time;
