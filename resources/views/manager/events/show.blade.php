@@ -5,23 +5,23 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="pt-4 pb-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
                 <div class="max-w-2xl py-4 mx-auto">
-                                    <x-jet-validation-errors class="mb-4" />
+                    <x-jet-validation-errors class="mb-4" />
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
-            </div>
-        @endif
-                    <form method="GET" action="{{ route('events.edit',['event'=>$event->id]) }}">
+                    @if (session('status'))
+                        <div class="mb-4 font-medium text-sm text-green-600">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    <form method="GET" action="{{ route('events.edit', ['event' => $event->id]) }}">
 
                         <div>
                             <x-jet-label for="event_name" value="イベント名" />
-                            {{$event->name}}
+                            {{ $event->name }}
                         </div>
 
                         <div class="mt-4">
@@ -33,7 +33,7 @@
                         <div class="md:flex justify-between">
                             <div class="mt-4">
                                 <x-jet-label for="event_date" value="イベント日付" />
-                                {{  $event->eventDate }}
+                                {{ $event->eventDate }}
 
                             </div>
 
@@ -44,7 +44,7 @@
 
                             <div class="mt-4">
                                 <x-jet-label for="end_time" value="終了時間" />
-                                {{ $event->endTime}}
+                                {{ $event->endTime }}
                             </div>
                         </div>
                         <div class="md:flex justify-between items-end">
@@ -59,11 +59,10 @@
                                     非表示
                                 @endif
                             </div>
-                            @if ($event->eventDate >= (\Carbon\Carbon::today()->format('Y年m月d日')) )
-                            <x-jet-button class="ml-4">
-                               編集する
-                           </x-jet-button>
-
+                            @if ($event->eventDate >= \Carbon\Carbon::today()->format('Y年m月d日'))
+                                <x-jet-button class="ml-4">
+                                    編集する
+                                </x-jet-button>
                             @endif
                         </div>
 
@@ -76,4 +75,42 @@
             </div>
         </div>
     </div>
+
+    <div class="py-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="max-w-2xl py-4 mx-auto">
+                    @if (!$users->isEmpty())
+                    <div class="text-center py-2">
+
+                        予約状況
+                    </div>
+                        <table class="table-auto w-full text-left whitespace-no-wrap">
+        <thead>
+          <tr>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">予約者名</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">予約人数</th>
+          </tr>
+        </thead>
+        <tbody>
+                           @foreach ($reservations as $reservation)
+                            @if (is_null($reservation['canceled_date']))
+            <tr>
+                <td class="px-4 py-3">{{ $reservation['name'] }}</td>
+                <td class="px-4 py-3">{{ $reservation['number_of_people'] }}</td>
+            </tr>
+                   @endif
+                        @endforeach
+        </tbody>
+    </table>
+
+
+
+
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
 </x-app-layout>
