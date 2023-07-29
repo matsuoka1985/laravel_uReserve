@@ -30,4 +30,28 @@ class EventService{ //ファイル名と同じクラス名にしないといけ�
         $dateTime=Carbon::createFromFormat('Y-m-d H:i',$join);
         return $dateTime;
     }
+
+    public static function getWeekEvents($startDate,$endDate){
+
+        //reservationsテーブルからevent_idカラムごとにnumber_of_peopleカラムの値を集計。
+        $reservedPeople = DB::table('reservations')
+        ->select('event_id', DB::raw('sum(number_of_people) as number_of_people'))
+        ->whereNull('canceled_date')
+        ->groupBy('event_id');
+
+
+
+        //eventsテーブルにそのイベントの参加人数をカラムとして付与した新たなテーブル。
+        return DB::table('events')
+        ->leftJoinSub(
+            $reservedPeople,
+            'reservedPeople',
+            function ($join) {
+                $join->on('events.id', '=', 'reservedPeople.event_id');
+            }
+        )
+        ->whereBetween('start_date', [$startDate,$endDate])
+        ->orderBy('start_date', 'asc')
+        ->get();
+    }
 }

@@ -11,6 +11,12 @@ flatpickr("#event_date", {
     maxDate:new Date().fp_incr(30) //未来の日付については30日後までしか表示しない。
 });
 
+flatpickr("#calendar", {
+    locale: Japanese,
+    // minDate: "today",
+    maxDate:new Date().fp_incr(30)
+});
+
 const setting = {
     "locale": Japanese,
     enableTime: true, //時間表示を可能にする。
@@ -18,7 +24,8 @@ const setting = {
     dateFormat: "H:i",
     time_24hr: true,
     minTime: "10:00",
-    maxTime:"20:00",
+    maxTime: "20:00",
+    minuteIncrement:30
 };
 
 flatpickr("#start_time",setting );
