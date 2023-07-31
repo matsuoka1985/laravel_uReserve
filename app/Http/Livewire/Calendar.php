@@ -11,6 +11,8 @@ class Calendar extends Component
     public $currentDate; //現在の日付。
     public $currentWeek; //直近一週間分の情報のため。
     public $day; //直近一週間分の日の配列の各要素。
+    public $checkDay; //直近一週間分の日の配列の各要素。
+    public $dayOfWeek; //直近一週間分の日の曜日。日曜、月曜、火曜など。
     public $sevenDaysLater;
     public $events;
 
@@ -27,7 +29,13 @@ class Calendar extends Component
 
         for ($i = 0; $i < 7; $i++) {
             $this->day = CarbonImmutable::today()->addDays($i)->format('m月d日');
-            array_push($this->currentWeek, $this->day);
+            $this->checkDay = CarbonImmutable::today()->addDays($i)->format('Y-m-d');
+            $this->dayOfWeek = CarbonImmutable::today()->addDays($i)->dayName;
+            array_push($this->currentWeek, [
+                'day'=>$this->day,
+                'checkDay'=>$this->checkDay,
+                'dayOfWeek'=>$this->dayOfWeek
+            ]);
         }
         // dd($this->currentWeek);
     }
@@ -44,7 +52,13 @@ class Calendar extends Component
 
         for($i=0;$i<7;$i++){
             $this->day= CarbonImmutable::parse($this->currentDate)->addDays($i)->format('m月d日');
-            array_push($this->currentWeek,$this->day);
+            $this->checkDay= CarbonImmutable::parse($this->currentDate)->addDays($i)->format('Y-m-d');
+            $this->dayOfWeek= CarbonImmutable::parse($this->currentDate)->addDays($i)->dayName;
+            array_push($this->currentWeek,[
+                'day'=>$this->day,
+                'checkDay'=>$this->checkDay,
+                'dayOfWeek'=>$this->dayOfWeek
+            ]);
         }
     }
 
