@@ -6,7 +6,7 @@
      value="{{ $currentDate }}"
      wire:change='getDate($event.target.value)' />
 
-    <div  class="flex border border-green-400 mx-auto" >
+    <div  class="flex  mx-auto" >
         <x-calendar-time/>
         {{-- $iは$currentWeekから各要素を取得するためのインデックス番号として使用する。 --}}
         @for ($i = 0; $i <7; $i++)
