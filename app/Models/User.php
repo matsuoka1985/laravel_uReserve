@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-use App\Modles\Event;
+use App\Models\Event;
 
 class User extends Authenticatable
 {
@@ -63,6 +63,6 @@ class User extends Authenticatable
 
     public function events(){
         return $this->belongsToMany(Event::class,'reservations')
-        ->withPivot('id','number_of_people','canceled_date');
+        ->withPivot('id','number_of_people','canceled_date'); //withPivotメソッドにより、交差テーブルのレコードのカラムも参照できるようになる。
     }
 }
