@@ -52,7 +52,7 @@ Route::middleware('can:user-higher')
         Route::post('/{id}', [ReservationController::class,'reserve'])->name('events.reserve');
     });
 
-Route::middleware('auth')->get('/{id}', [ReservationController::class, 'detail'])->name('events.detail');
+Route::get('/{id}', [ReservationController::class, 'detail'])->name('events.detail');
 
 
 Route::controller(LivewireTestController::class)
